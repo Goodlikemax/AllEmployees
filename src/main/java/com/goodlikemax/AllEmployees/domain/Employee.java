@@ -1,25 +1,36 @@
 package com.goodlikemax.AllEmployees.domain;
 
 
-import org.springframework.data.annotation.Id;
 
-import javax.annotation.Generated;
+
+
+
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * "Created by : goodlikemax"
  * "Date: "22.01.2022
  */
-public class Employee {
+
+@Entity
+public class Employee implements Serializable {
 
     @Id
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     private String fullName;
     private String position;
     private Date hiringDate;
     private String phoneNumber;
     private int salary;
-    private Employee head;
+
 
     private int subordinationLevel;
 
@@ -28,21 +39,12 @@ public class Employee {
     private long adminCreatedId;
     private long adminUpdatedId;
 
-
-    public Employee(long id, String fullName, String position, long hiringDate, String phoneNumber, int salary, Employee head) {
-        this.id = id;
-        this.fullName = fullName;
-        this.position = position;
-        this.hiringDate = new Date(hiringDate);
-        this.phoneNumber = phoneNumber;
-        this.salary = salary;
-        this.head = head;
-
-        this.createdAt = new Date();
+    public Employee() {
     }
 
-    public Employee(long id, String fullName, String position, long hiringDate, String phoneNumber, int salary) {
-        this.id = id;
+
+
+    public Employee( String fullName, String position, long hiringDate, String phoneNumber, int salary) {
         this.fullName = fullName;
         this.position = position;
         this.hiringDate = new Date(hiringDate);
@@ -60,13 +62,11 @@ public class Employee {
         this.subordinationLevel = subordinationLevel;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+
 
     public String getFullName() {
         return fullName;
@@ -108,13 +108,7 @@ public class Employee {
         this.salary = salary;
     }
 
-    public Employee getHead() {
-        return head;
-    }
 
-    public void setHead(Employee head) {
-        this.head = head;
-    }
 
     @Override
     public String toString() {
@@ -132,4 +126,11 @@ public class Employee {
                 ", adminUpdatedId=" + adminUpdatedId +
                 '}';
     }
+
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
 }
