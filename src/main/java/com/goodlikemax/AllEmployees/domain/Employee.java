@@ -6,12 +6,10 @@ package com.goodlikemax.AllEmployees.domain;
 
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * "Created by : goodlikemax"
@@ -31,6 +29,21 @@ public class Employee implements Serializable {
     private String phoneNumber;
     private int salary;
 
+    @JoinColumn
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Employee> subordinates;
+
+    public void addSubordinates(Employee employee){
+        subordinates.add(employee);
+    }
+
+    public List<Employee> getSubordinates() {
+        return subordinates;
+    }
+
+    public void setSubordinates(List<Employee> subordinates) {
+        this.subordinates = subordinates;
+    }
 
     private int subordinationLevel;
 

@@ -17,14 +17,15 @@ public class EmployeeController {
 
     @GetMapping
     public Iterable<Employee> list(){
-        Iterable<Employee> allEmployeeList = employeeRepository.findAll();
-        return allEmployeeList;
+        return employeeRepository.findAll();
     }
 
     @GetMapping("{id}")
     public Employee getById(@PathVariable long id){
         return employeeRepository.findById(id);
     }
+
+
 
     @PostMapping
     public Employee create(@RequestBody Employee employee){
@@ -38,5 +39,5 @@ public class EmployeeController {
         return employee;
     }
 
-//       employeeRepository.save(new Employee(fullName,position, 1212121212121L, phoneNumber,salary));
+
 }
