@@ -6,6 +6,9 @@ package com.goodlikemax.AllEmployees.domain;
 
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -29,21 +32,17 @@ public class Employee implements Serializable {
     private String phoneNumber;
     private int salary;
 
+    @JsonManagedReference
     @JoinColumn
     @OneToMany(fetch = FetchType.EAGER)
     private List<Employee> subordinates;
 
-    public void addSubordinates(Employee employee){
-        subordinates.add(employee);
-    }
+    @JsonBackReference
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Employee head;
 
-    public List<Employee> getSubordinates() {
-        return subordinates;
-    }
 
-    public void setSubordinates(List<Employee> subordinates) {
-        this.subordinates = subordinates;
-    }
 
     private int subordinationLevel;
 
@@ -66,6 +65,9 @@ public class Employee implements Serializable {
 
         this.createdAt = new Date();
     }
+
+
+
 
     public int getSubordinationLevel() {
         return subordinationLevel;
@@ -122,24 +124,43 @@ public class Employee implements Serializable {
     }
 
 
+    //    adding head to every employee in subordinates
+    private void addHeadToSubordinates(Employee subordinate){
+        subordinate.setHead(this);
+    }
+
+    public Employee getHead() {
+        return head;
+    }
+
+    public void setHead(Employee head) {
+        this.head = head;
+    }
+
+    public void addSubordinates(Employee employee){
+        addHeadToSubordinates(employee);
+        subordinates.add(employee);
+    }
+
+    public List<Employee> getSubordinates() {
+        return subordinates;
+    }
+
+    public void setSubordinates(List<Employee> subordinates) {
+        subordinates.forEach(subordinate -> addHeadToSubordinates(subordinate));
+        this.subordinates = subordinates;
+    }
+
 
     @Override
     public String toString() {
         return "Employee{" +
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
-                ", position='" + position + '\'' +
-                ", hiringDate=" + hiringDate +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", salary=" + salary +
-                ", subordinationLevel=" + subordinationLevel +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                ", adminCreatedId=" + adminCreatedId +
-                ", adminUpdatedId=" + adminUpdatedId +
+//                ", subordinates=" + subordinates +
+//                ", head=" + head +
                 '}';
     }
-
 
     public void setId(Long id) {
         this.id = id;

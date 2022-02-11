@@ -35,7 +35,7 @@ public class EmployeeController {
 
     @PutMapping("{id}")
     public Employee update(@RequestBody Employee employee){
-
+        employeeRepository.save(employee);
         return employee;
     }
 
