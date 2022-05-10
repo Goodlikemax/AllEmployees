@@ -47,7 +47,7 @@ public class EmployeeController {
         currentEmployee.setPhoneNumber(employee.getPhoneNumber());
         currentEmployee.setSalary(employee.getSalary());
         currentEmployee.setPosition(employee.getPosition());
-        currentEmployee = employeeRepository.save(employee);
+        employeeRepository.save(employee);
 
         return ResponseEntity.ok(employee);
     }

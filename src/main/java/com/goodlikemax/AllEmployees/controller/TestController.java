@@ -3,10 +3,8 @@ package com.goodlikemax.AllEmployees.controller;
 import com.goodlikemax.AllEmployees.domain.Employee;
 import com.goodlikemax.AllEmployees.repo.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -75,6 +73,12 @@ public class TestController {
     public Employee testHeads(@PathVariable long id){
         return er.findById(id).getHead();
 
+    }
+
+    @DeleteMapping("clear")
+    public ResponseEntity clearAll(){
+        er.deleteAll();
+        return ResponseEntity.ok().build();
     }
 
 
